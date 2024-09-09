@@ -361,6 +361,7 @@ def writeBootLooder():
     ctx.logger.info("Generating grub configuration file")
     if ctx.storage.storageset.active:
         yali.util.chroot("grub2-mkconfig -o /boot/grub2/grub.cfg")
+        yali.util.chroot("umount /sys/firmware/efi/efivars")
         return True
 
     ctx.logger.debug("writeBootLooder:StorageSet not activated")
