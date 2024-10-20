@@ -1173,7 +1173,7 @@ register_device_format(DebugFilesystem)
 
 class EfiVarFilesystem(NoDevFilesystem):
     _type = "efivarfs"
-    _mountOptions = ["efivarfs", "defaults"]
+    _mountOptions = ["defaults"]
 
     @property
     def supported(self):
