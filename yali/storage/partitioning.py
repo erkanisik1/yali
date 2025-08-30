@@ -1518,7 +1518,7 @@ def defaultPartitioning(storage, quiet=0, asVol=True):
                                   asVol=asVol, requiredSpace=50*1024)]
 
     bootreq = PartitionSpec(mountpoint="/boot", fstype=storage.defaultFSType,
-                            size=500, weight=weight(mountpoint="/boot"))
+                            size=1000, weight=weight(mountpoint="/boot"))
     autorequests.append(bootreq)
 
     (minswap, maxswap) = yali.util.swap_suggestion(quiet=quiet)
