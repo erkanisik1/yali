@@ -909,7 +909,9 @@ class BTRFilesystem(Filesystem):
     _linuxNative = True
     _bootable = False
     _maxLabelChars = 256
-    _supported = False
+    # ORIJINAL: _supported = False
+    # btrfs desteğini varsayılan olarak aktif etmek için:
+    _supported = True
     _dump = True
     _check = True
     _maxSize = 16 * 1024 * 1024
@@ -936,7 +938,9 @@ class BTRFilesystem(Filesystem):
     def supported(self):
         """ Is this filesystem a supported type? """
         supported = self._supported
-        if "btrfs" in pardus.sysutils.get_kernel_option("yali"):
+        # ORIJINAL: if "btrfs" in pardus.sysutils.get_kernel_option("yali"):
+        # btrfs desteğini varsayılan olarak aktif etmek için:
+        if "btrfs" in pardus.sysutils.get_kernel_option("yali") or self.utilsAvailable:
             supported = self.utilsAvailable
 
         return supported
