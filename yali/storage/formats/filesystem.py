@@ -573,7 +573,7 @@ class Filesystem(Format):
 
             if not filter(lambda d: os.access("%s/%s" % (d, prog), os.X_OK),
                           os.environ["PATH"].split(":")):
-                ctx.logger.debug("%s program not available in % format type" % (prog, self.type))
+                ctx.logger.debug("%s program not available in %s format type" % (prog, self.type))
                 return False
 
         return True
