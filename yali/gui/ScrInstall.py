@@ -408,7 +408,9 @@ class SqfsUI:
         self.info = {"percent": 0, "file": ""}
 
         yali.util.run_batch("mkdir /mnt/sqfs")
-        yali.util.run_batch("mount {} /mnt/sqfs".format(ctx.consts.sqfs_file))
+        #inicpio fix
+        #yali.util.run_batch("mount {} /mnt/sqfs".format(ctx.consts.sqfs_file))
+        yali.util.run_batch("mount -o loop {} /mnt/sqfs".format(ctx.consts.sqfs_file))
 
     def notify(self, **keywords):
         ctx.logger.debug("SqfsUI.notify event: Install")
