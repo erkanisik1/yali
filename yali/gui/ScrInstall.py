@@ -407,10 +407,18 @@ class SqfsUI:
         self.percent = 0
         self.info = {"percent": 0, "file": ""}
 
-        yali.util.run_batch("mkdir /mnt/sqfs")
-        #inicpio fix
-        #yali.util.run_batch("mount {} /mnt/sqfs".format(ctx.consts.sqfs_file))
-        yali.util.run_batch("mount -o loop {} /mnt/sqfs".format(ctx.consts.sqfs_file))
+        # Live sistem kaynak dizini
+        self.source_dir = "/ro_branch/pisi"
+        
+        # Eğer kaynak dizin yoksa, eski yöntemi dene
+        if not os.path.exists(self.source_dir):
+            ctx.logger.debug("Live source dir not found, trying squashfs mount")
+            yali.util.run_batch("mkdir -p /mnt/sqfs")
+            yali.util.run_batch("mount -o loop {} /mnt/sqfs".format(ctx.consts.sqfs_file))
+            self.source_dir = "/mnt/sqfs"
+            ctx.logger.debug("Using squashfs mount: %s", self.source_dir)
+        else:
+            ctx.logger.debug("Using live system source: %s", self.source_dir)
 
     def notify(self, **keywords):
         ctx.logger.debug("SqfsUI.notify event: Install")
@@ -423,39 +431,45 @@ class SqfsUI:
         data = [EventSetProgress, total]
         self.queue.put_nowait(data)
 
+        # Dosya sayısını hesapla
         process = subprocess.Popen(
-            "unsquashfs -l {sqfs} | wc -l".format(
-                sqfs=ctx.consts.sqfs_file),
+            "find {source_dir} | wc -l".format(
+                source_dir=self.source_dir),
             shell=True, stdout=subprocess.PIPE)
-        total = float(int(process.communicate()[0].rstrip()) - 3)
+        total = float(int(process.communicate()[0].rstrip()))
+        ctx.logger.debug("TOTAL FILES FROM SOURCE: %s", total)
 
         rsync_env = os.environ.copy()
         rsync_env['LC_ALL'] = "C"
         process = subprocess.Popen(
-            "rsync -aHAXr --progress {sqfs_dir}/* {dir}".format(
+            "rsync -aHAXr --progress {source_dir}/* {dir}".format(
                 dir=ctx.consts.target_dir,
-                sqfs_dir="/mnt/sqfs"), env=rsync_env,
+                source_dir=self.source_dir), env=rsync_env,
             shell=True, stdout=subprocess.PIPE)
 
         count = 0
-        for line in iter(process.stdout.readline, b''):
+        for line in iter(process.stdout.readline, ''):
+            ctx.logger.debug("RSYNC RAW LINE: '%s'", repr(line))
             try:
-                if (line[0] in letters) or line[0] == "\\":
-                    line = line.rstrip()
+                line = line.rstrip()
+                if line and (line[0] in letters or line[0] == "\\" or line[0] == "/"):
                     count += 1
-                    self.percent = count / total * 100
-                    if self.percent > 100:
-                        self.percent = 100.0
-                    # print(self.percent, count, total)
-                    # TODO: sondaki ilgisiz 3 satır atlanacak!
+                    self.percent = min(count / total * 100, 100.0)
                     self.info = {"percent": self.percent, "file": line}
+                    ctx.logger.debug("PROGRESS: %s%% (%s/%s) - %s", 
+                                   self.percent, count, total, line)
             except Exception as e:
+                ctx.logger.debug("PARSE ERROR: %s - %s", e, repr(line))
                 self.error(e)
             self.notify()
 
         self.percent = 100
         self.notify()
-        yali.util.run_batch("umount /mnt/sqfs")
+        
+        # Sadece squashfs mount edildiyse umount yap
+        if self.source_dir == "/mnt/sqfs":
+            yali.util.run_batch("umount /mnt/sqfs")
+            ctx.logger.debug("Unmounted squashfs")
 
     def error(self, msg):
         ctx.logger.debug("SqfsUI.error: %s" % unicode(msg))
