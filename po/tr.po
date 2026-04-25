@@ -1027,6 +1027,10 @@ msgstr "<b>%(name)s</b> paketi kuruluyor<br>%(summary)s"
 msgid "Configuring <b>%s</b>"
 msgstr "<b>%s</b> paketi yapılandırılıyor"
 
+#: yali/gui/ScrInstall.py:182
+msgid "Installing Package : {file}"
+msgstr "Dosya Kopyalanıyor: {file}"
+
 #: yali/gui/ScrInstall.py:196
 #, python-format
 msgid ""
