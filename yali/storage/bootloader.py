@@ -425,7 +425,7 @@ quit
             yali.util.chroot("mount -t efivarfs efivarfs /sys/firmware/efi/efivars")
             
             yali.util.chroot("grub2-install --recheck --target=x86_64-efi \
-                --efi-directory=/boot/efi --bootloader-id=pisilinux \
+                --efi-directory=/boot/efi --bootloader-id=pisilinux --force \
                 %s" % stage1Devices[0].path)
 
             # başka yerde çalıştırılıyor
