@@ -175,11 +175,7 @@ class Widget(QWidget, ScreenWidget):
                 percent = info["percent"]
                 # percent = data[1]
                 self.installProgress.ui.info.setText(
-                    _("General",
-                      # "Installing <b>{percent:.2f}%</b>".format(percent=percent)))
-                      #"Installing <b>{percent:.2f}%</b> : {file}".format(**info)))
-                      #09-11-2022 tarihinde değiştirildi
-                      "Installing Package : {file}".format(**info)))
+                    _("General", "Installing Package : {file}").format(**info))
 
                 if percent >= self.cur + 0.5:
                     ctx.logger.debug("Sqfs: installing {}%".format(percent))

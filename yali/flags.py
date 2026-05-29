@@ -68,7 +68,7 @@ class Flags:
         self.__dict__['flags'] = {}
         self.__dict__['flags']['debug'] = False
         self.__dict__['flags']['install_type'] = 0
-        self.__dict__['flags']['partitioning_lvm'] = True
+        self.__dict__['flags']['partitioning_lvm'] = False
         self.__dict__['flags']['collection'] = False
         self.__dict__['flags']['baseonly'] = False
         self.__dict__['flags']['kahya'] = False

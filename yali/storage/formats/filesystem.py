@@ -907,7 +907,7 @@ class BTRFilesystem(Filesystem):
     _resizefs = "btrfsctl"
     _formattable = True
     _linuxNative = True
-    _bootable = False
+    _bootable = True
     _maxLabelChars = 256
     # ORIJINAL: _supported = False
     # btrfs desteğini varsayılan olarak aktif etmek için:

@@ -199,10 +199,6 @@ msgid ""
 "YALI was designed with ease of use in mind and should not pose a problem to the novice Linux user. As with all such procedures though, any valuable data on your system should be backed-up before commencing."
 msgstr "Yalı'ya hoş geldiniz (Yet Another Linux Installer). Yalı, Pisi Linux'u bilgisayarınıza kurmanız için sizi adım adım yönlendirir. Kurulum medyasını doğrulamanıza , klavye düzeninizi ve zaman diliminizi seçmenize, kullanıcı hesaplarınızı oluşturmanıza, diskinizi kurulum için hazırlamanıza  ve  yaptığınız ayarları uygulamadan önce gözden geçirmenize olanak sağlar. \nKurulumun tüm adımlarında yükleyici sayfasının tepesindeki soru işaretine tıklayarak o adım ile ilgili daha fazla bilgi alabilirsiniz.\nYalı, acemi Linux kullanıcılarına kolaylık sağlayacak şekilde, sorunsuz bir kurulum için tasarlanmıştır. Ancak kuruluma başlamadan önce sisteminizdeki bütün değerli verileri yedeklemenizi öneriyoruz."
 
-#: yali/gui/Ui/installprogress.py:76
-msgid "Installing Package: "
-msgstr "Kurulan Paket: "
-
 #: yali/gui/Ui/keyboardwidget.py:142
 msgid "Keyboard Layouts"
 msgstr "Klavye Düzenleri"

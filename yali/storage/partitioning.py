@@ -1511,19 +1511,8 @@ def weight(fstype=None, mountpoint=None):
 def defaultPartitioning(storage, quiet=0, asVol=True):
     """Return the default partitioning information."""
     autorequests = [PartitionSpec(mountpoint="/", fstype=storage.defaultFSType,
-                                  size=1024, maxSize=50*1024,
-                                  grow=True, asVol=asVol),
-                    PartitionSpec(mountpoint="/home", fstype=storage.defaultFSType,
-                                  size=100, grow=True,
-                                  asVol=asVol, requiredSpace=50*1024)]
-
-    bootreq = PartitionSpec(mountpoint="/boot", fstype=storage.defaultFSType,
-                            size=1000, weight=weight(mountpoint="/boot"))
-    autorequests.append(bootreq)
-
-    (minswap, maxswap) = yali.util.swap_suggestion(quiet=quiet)
-    swapreq = PartitionSpec(fstype="swap", size=minswap, maxSize=maxswap, grow=True, asVol=asVol)
-    autorequests.append(swapreq)
+                                  size=4096, maxSize=0,
+                                  grow=True, asVol=asVol)]
 
     if yali.util.isEfi():
         efireq = PartitionSpec(mountpoint="/boot/efi", fstype='efi',
